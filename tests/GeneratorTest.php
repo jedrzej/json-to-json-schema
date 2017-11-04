@@ -2,12 +2,20 @@
 
 namespace Jedrzej\JtJS\Test;
 
+use InvalidArgumentException;
 use Jedrzej\JtJS\Generator;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class GeneratorTest extends TestCase
 {
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidJson() {
+       Generator::generate("I'm not JSON");
+    }
+
     public function test()
     {
         $data = [

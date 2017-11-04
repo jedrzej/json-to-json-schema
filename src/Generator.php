@@ -10,6 +10,10 @@ class Generator
     {
         if (is_string($data)) {
             $data = json_decode($data);
+            if (is_null($data)) {
+                throw new \InvalidArgumentException('Provided string is not a valid JSON.');
+            }
+
         }
 
         return static::describe($data);
