@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Jedrzej\JtJS\Generator;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class GeneratorTest extends TestCase
 {
@@ -16,16 +17,31 @@ class GeneratorTest extends TestCase
        Generator::generate("I'm not JSON");
     }
 
-    public function test()
-    {
-        $data = [
-          'array' => [1, 2, 3],
-          'object' => ['attribute' => 'value'],
-          'scalar' => 5,
-        ];
+    public function testDescribeList() {
+        $data = [1,2,3];
 
-        Assert::assertEquals($data, Generator::generate($data));
+        $schema = ['type' => 'array'];
 
-        Assert::assertEquals(json_decode(json_encode($data)), Generator::generate(json_encode($data)));
+        Assert::assertEquals($schema, Generator::generate($data));
+        Assert::assertEquals($schema, Generator::generate(json_encode($data)));
+    }
+
+    public function testDescribeArray() {
+        $data = ['attribute' => 'value'];
+
+        $schema = ['type' => 'object'];
+
+        Assert::assertEquals($schema, Generator::generate($data));
+        Assert::assertEquals($schema, Generator::generate(json_encode($data)));
+    }
+
+    public function testDescribeObject() {
+        $data = new stdClass;
+        $data->attribute = 'value';
+
+        $schema = ['type' => 'object'];
+
+        Assert::assertEquals($schema, Generator::generate($data));
+        Assert::assertEquals($schema, Generator::generate(json_encode($data)));
     }
 }

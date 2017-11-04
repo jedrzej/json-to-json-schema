@@ -16,7 +16,7 @@ class Generator
 
         }
 
-        return static::describe($data);
+        return static::describe(json_decode(json_encode($data)));
     }
 
     protected static function describe($data)
@@ -34,12 +34,17 @@ class Generator
 
     private static function describeArray(array $data)
     {
-        return $data;
+        return [
+            'type' => 'array'
+        ];
+
     }
 
     private static function describeObject(stdClass $data)
     {
-        return $data;
+        return [
+            'type' => 'object'
+        ];
     }
 
     private static function describeScalar($data)
