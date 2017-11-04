@@ -2,7 +2,7 @@
 
 namespace Jedrzej\JtJS;
 
-use stdClass;
+use InvalidArgumentException;
 
 class Generator
 {
@@ -11,7 +11,7 @@ class Generator
         if (is_string($data)) {
             $data = json_decode($data);
             if (is_null($data)) {
-                throw new \InvalidArgumentException('Provided string is not a valid JSON.');
+                throw new InvalidArgumentException('Provided string is not a valid JSON.');
             }
 
         }
@@ -21,34 +21,50 @@ class Generator
 
     protected static function describe($data)
     {
+        if (is_string($data)) {
+            return [
+                'type' => 'string',
+            ];
+            $description['type'] = 'string';
+        }
+
+        if (is_numeric($data)) {
+            return [
+                'type' => 'number',
+            ];
+        }
+
+        if (is_bool($data)) {
+            return [
+                'type' => 'boolean',
+            ];
+        }
+
+        if (is_null($data)) {
+            return [
+                'type' => 'null',
+            ];
+        }
+
         if (is_array($data)) {
-            return static::describeArray($data);
+            return [
+                'type' => 'array',
+            ];
         }
 
         if (is_object($data)) {
-            return static::describeObject($data);
+            $description = [
+              'type' => 'object',
+              'properties' => [],
+            ];
+
+            foreach ($data as $attribute => $value) {
+                $description['properties'][$attribute] = static::describe($value);
+            }
+
+            return $description;
         }
 
-        return static::describeScalar($data);
-    }
-
-    private static function describeArray(array $data)
-    {
-        return [
-            'type' => 'array'
-        ];
-
-    }
-
-    private static function describeObject(stdClass $data)
-    {
-        return [
-            'type' => 'object'
-        ];
-    }
-
-    private static function describeScalar($data)
-    {
-        return $data;
+        throw new InvalidArgumentException('Unrecognized type: ' . var_export($data, true));
     }
 }
