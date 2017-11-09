@@ -2,7 +2,9 @@
 
 namespace Jedrzej\JtJS;
 
+use Exception;
 use InvalidArgumentException;
+use JsonSchema\Validator;
 
 class Generator
 {
@@ -16,7 +18,12 @@ class Generator
 
         }
 
-        return static::describe(json_decode(json_encode($data)));
+        $data = json_decode(json_encode($data));
+        $schema = static::describe($data);
+
+        static::validate($data, $schema);
+
+        return $schema;
     }
 
     protected static function describe($data)
@@ -68,5 +75,13 @@ class Generator
         }
 
         throw new InvalidArgumentException('Unrecognized type: ' . var_export($data, true));
+    }
+
+    protected static function validate($data, $schema)
+    {
+        $validator = new Validator();
+        if ($validator->validate($data, $schema)) {
+            throw new Exception('Unable to generate JSON Schema that would match provided data.');
+        }
     }
 }
