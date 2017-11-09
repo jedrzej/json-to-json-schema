@@ -10,6 +10,46 @@ use stdClass;
 
 class GeneratorTest extends TestCase
 {
+    private $expectedSchema = [
+        'type'       => 'object',
+        'properties' => [
+            'stringValue'  => [
+                'type' => 'string',
+            ],
+            'booleanValue' => [
+                'type' => 'boolean',
+            ],
+            'numberValue'  => [
+                'type' => 'number',
+            ],
+            'nullValue'    => [
+                'type' => 'null',
+            ],
+            'listValue'    => [
+                'type' => 'array'
+            ],
+            'arrayValue'   => [
+                'type'       => 'object',
+                'properties' => [
+                    'attribute' => [
+                        'type' => 'string',
+                    ],
+                ],
+                'required' => ['attribute'],
+            ],
+            'objectValue'  => [
+                'type'       => 'object',
+                'properties' => [
+                    'attribute' => [
+                        'type' => 'string',
+                    ],
+                ],
+                'required' => ['attribute'],
+            ],
+        ],
+        'required' => ['stringValue', 'booleanValue', 'numberValue', 'nullValue', 'listValue', 'arrayValue', 'objectValue'],
+    ];
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -42,45 +82,8 @@ class GeneratorTest extends TestCase
             'objectValue'  => (object)['attribute' => 'value'],
         ];
 
-        $schema = [
-            'type'       => 'object',
-            'properties' => [
-                'stringValue'  => [
-                    'type' => 'string',
-                ],
-                'booleanValue' => [
-                    'type' => 'boolean',
-                ],
-                'numberValue'  => [
-                    'type' => 'number',
-                ],
-                'nullValue'    => [
-                    'type' => 'null',
-                ],
-                'listValue'    => [
-                    'type' => 'array'
-                ],
-                'arrayValue'   => [
-                    'type'       => 'object',
-                    'properties' => [
-                        'attribute' => [
-                            'type' => 'string',
-                        ],
-                    ],
-                ],
-                'objectValue'  => [
-                    'type'       => 'object',
-                    'properties' => [
-                        'attribute' => [
-                            'type' => 'string',
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        Assert::assertEquals($schema, Generator::generate($data));
-        Assert::assertEquals($schema, Generator::generate(json_encode($data)));
+        Assert::assertEquals($this->expectedSchema, Generator::generate($data));
+        Assert::assertEquals($this->expectedSchema, Generator::generate(json_encode($data)));
     }
 
     public function testDescribeObject()
@@ -94,44 +97,8 @@ class GeneratorTest extends TestCase
         $data->arrayValue = ['attribute' => 'value'];
         $data->objectValue = (object)['attribute' => 'value'];
 
-        $schema = [
-            'type'       => 'object',
-            'properties' => [
-                'stringValue'  => [
-                    'type' => 'string',
-                ],
-                'booleanValue' => [
-                    'type' => 'boolean',
-                ],
-                'numberValue'  => [
-                    'type' => 'number',
-                ],
-                'nullValue'    => [
-                    'type' => 'null',
-                ],
-                'listValue'    => [
-                    'type' => 'array'
-                ],
-                'arrayValue'   => [
-                    'type'       => 'object',
-                    'properties' => [
-                        'attribute' => [
-                            'type' => 'string',
-                        ],
-                    ],
-                ],
-                'objectValue'  => [
-                    'type'       => 'object',
-                    'properties' => [
-                        'attribute' => [
-                            'type' => 'string',
-                        ],
-                    ],
-                ],
-            ],
-        ];
 
-        Assert::assertEquals($schema, Generator::generate($data));
-        Assert::assertEquals($schema, Generator::generate(json_encode($data)));
+        Assert::assertEquals($this->expectedSchema, Generator::generate($data));
+        Assert::assertEquals($this->expectedSchema, Generator::generate(json_encode($data)));
     }
 }

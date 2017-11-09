@@ -62,6 +62,8 @@ class Generator
                 $description['properties'][$attribute] = static::describe($value);
             }
 
+            $description['required'] = array_keys((array)$data);
+
             return $description;
         }
 
