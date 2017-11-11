@@ -11,8 +11,8 @@ use stdClass;
 class GeneratorTest extends TestCase
 {
     private $expectedSchema = [
-        'type'       => 'object',
-        'properties' => [
+        'type'                 => 'object',
+        'properties'           => [
             'stringValue'  => [
                 'type' => 'string',
             ],
@@ -29,25 +29,28 @@ class GeneratorTest extends TestCase
                 'type' => 'array'
             ],
             'arrayValue'   => [
-                'type'       => 'object',
-                'properties' => [
+                'type'                 => 'object',
+                'properties'           => [
                     'attribute' => [
                         'type' => 'string',
                     ],
                 ],
-                'required' => ['attribute'],
+                'additionalProperties' => false,
+                'required'             => ['attribute'],
             ],
             'objectValue'  => [
-                'type'       => 'object',
-                'properties' => [
+                'type'                 => 'object',
+                'properties'           => [
                     'attribute' => [
                         'type' => 'string',
                     ],
                 ],
-                'required' => ['attribute'],
+                'additionalProperties' => false,
+                'required'             => ['attribute'],
             ],
         ],
-        'required' => ['stringValue', 'booleanValue', 'numberValue', 'nullValue', 'listValue', 'arrayValue', 'objectValue'],
+        'additionalProperties' => false,
+        'required'             => ['stringValue', 'booleanValue', 'numberValue', 'nullValue', 'listValue', 'arrayValue', 'objectValue'],
     ];
 
     /**

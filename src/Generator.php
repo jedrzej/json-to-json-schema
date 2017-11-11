@@ -61,8 +61,9 @@ class Generator
 
         if (is_object($data)) {
             $description = [
-              'type' => 'object',
-              'properties' => [],
+                'type'                 => 'object',
+                'properties'           => [],
+                'additionalProperties' => false,
             ];
 
             foreach ($data as $attribute => $value) {
