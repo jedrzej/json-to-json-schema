@@ -1,9 +1,9 @@
 <?php
 
-namespace Jedrzej\JtJS\Test;
+namespace Jedrzej\JsonToJsonSchema\Test;
 
 use InvalidArgumentException;
-use Jedrzej\JtJS\Generator;
+use Jedrzej\JsonToJsonSchema\Generator;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use stdClass;

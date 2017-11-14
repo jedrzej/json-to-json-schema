@@ -1,6 +1,6 @@
 <?php
 
-namespace Jedrzej\JtJS;
+namespace Jedrzej\JsonToJsonSchema;
 
 use Exception;
 use InvalidArgumentException;
